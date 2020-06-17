@@ -11,9 +11,51 @@ def create_reference_solution(chromosome_length):
 
     # Shuffle the array to mix the zeros and ones
     np.random.shuffle(reference)
-    
-    return reference
 
+    return np.array([
+        0, 1, 1, 1, 0, 1, 0, 0, 
+        0, 1, 1, 0, 1, 0, 0, 0, 
+        0, 1, 1, 0, 0, 1, 0, 1, 
+        0, 0, 1, 0, 0, 0, 0, 0, 
+        0, 1, 1, 0, 1, 1, 0, 0, 
+        0, 1, 1, 0, 0, 0, 0, 1, 
+        0, 1, 1, 1, 1, 0, 1, 0, 
+        0, 1, 1, 1, 1, 0, 0, 1, 
+        0, 0, 1, 0, 0, 0, 0, 0, 
+        0, 1, 1, 0, 0, 1, 0, 0, 
+        0, 1, 1, 0, 1, 1, 1, 1, 
+        0, 1, 1, 0, 0, 1, 1, 1, 
+        0, 0, 1, 0, 0, 0, 0, 0, 
+        0, 1, 1, 0, 1, 0, 1, 0, 
+        0, 1, 1, 1, 0, 1, 0, 1, 
+        0, 1, 1, 0, 1, 1, 0, 1, 
+        0, 1, 1, 1, 0, 0, 0, 0, 
+        0, 1, 1, 0, 0, 1, 0, 1, 
+        0, 1, 1, 0, 0, 1, 0, 0, 
+        0, 0, 1, 0, 0, 0, 0, 0, 
+        0, 1, 1, 0, 1, 1, 1, 1, 
+        0, 1, 1, 1, 0, 1, 1, 0, 
+        0, 1, 1, 0, 0, 1, 0, 1, 
+        0, 1, 1, 1, 0, 0, 1, 0, 
+        0, 0, 1, 0, 0, 0, 0, 0, 
+        0, 1, 1, 1, 0, 1, 0, 0, 
+        0, 1, 1, 0, 1, 0, 0, 0, 
+        0, 1, 1, 0, 0, 1, 0, 1, 
+        0, 0, 1, 0, 0, 0, 0, 0, 
+        0, 1, 1, 0, 0, 0, 1, 0, 
+        0, 1, 1, 0, 1, 0, 0, 1, 
+        0, 1, 1, 0, 0, 1, 1, 1, 
+        0, 0, 1, 0, 0, 0, 0, 0, 
+        0, 1, 1, 0, 0, 0, 1, 0, 
+        0, 1, 1, 1, 0, 0, 1, 0, 
+        0, 1, 1, 0, 1, 1, 1, 1, 
+        0, 1, 1, 1, 0, 1, 1, 1, 
+        0, 1, 1, 0, 1, 1, 1, 0, 
+        0, 0, 1, 0, 0, 0, 0, 0, 
+        0, 1, 1, 0, 0, 1, 1, 0, 
+        0, 1, 1, 0, 1, 1, 1, 1, 
+        0, 1, 1, 1, 1, 0, 0, 0 
+    ], dtype = float)
 
 def create_starting_population(individuals, chromosome_length):
     # Set up an initial array of all zeros
@@ -29,12 +71,25 @@ def create_starting_population(individuals, chromosome_length):
     
     return population
 
+def binary_array_to_string(iten):
+    yy=[] 
+    yy_word="" 
+    yy=np.packbits(iten.astype(np.int64)) 
+    for i in yy: 
+        if i:
+            j = chr(i)
+            yy_word += str(j)
+    return yy_word
 
 def calculate_fitness(reference, population):
     # Create an array of True/False compared to reference
     identical_to_reference = population == reference
+
     # Sum number of genes that are identical to the reference
     fitness_scores = identical_to_reference.sum(axis=1)
+
+    for iten in population:
+        print(binary_array_to_string(iten))
     
     return fitness_scores
 
@@ -101,7 +156,7 @@ def randomly_mutate_population(population, mutation_probability):
 # *************************************
 if __name__== '__main__':
     # Set general parameters
-    chromosome_length = 75
+    chromosome_length = len('the lazy dog jumped over the big brown fox') * 8
     population_size = 500
     maximum_generation = 200
     best_score_progress = [] # Tracks progress
