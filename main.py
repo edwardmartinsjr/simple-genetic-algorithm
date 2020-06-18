@@ -81,6 +81,12 @@ def binary_array_to_string(iten):
             yy_word += str(j)
     return yy_word
 
+def save_file(individual):
+    print(individual)
+    f = open('execution.log', "a", encoding="utf-8")
+    f.write(individual+'\n')
+    f.close()
+
 def calculate_fitness(reference, population):
     # Create an array of True/False compared to reference
     identical_to_reference = population == reference
@@ -88,8 +94,8 @@ def calculate_fitness(reference, population):
     # Sum number of genes that are identical to the reference
     fitness_scores = identical_to_reference.sum(axis=1)
 
-    for iten in population:
-        print(binary_array_to_string(iten))
+    for individual in population:
+        save_file(binary_array_to_string(individual))
     
     return fitness_scores
 
